@@ -22,11 +22,14 @@ const styles = StyleSheet.create({
     container: {
       backgroundColor: 'white',
       padding: 10,
-      borderRadius: 10
+      borderRadius: 10,
+      flex: 1,
+      maxWidth: '50%'
     },
     image: {
       width: '100%',
-      aspectRatio: 1
+      aspectRatio: 1,
+      resizeMode: 'contain'
     },
     title: {
       fontSize: 18,
