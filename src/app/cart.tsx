@@ -14,7 +14,7 @@ export function CartScreen() {
             renderItem={({item}) => <CartListItem cartItem={item} />}
             contentContainerStyle={{padding: 10, gap: 10}}
         />
-        <Text style={{marginTop: 5,fontWeight: '600' }}>Total: ${total}</Text>
+        <Text style={{marginTop: 5, fontWeight: '600' }}>Total: ${total}</Text>
         <Button text='Checkout' />
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       </View>
