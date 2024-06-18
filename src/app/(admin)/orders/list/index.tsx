@@ -8,7 +8,7 @@ import OrderListItem from '@/src/components/OrderListItem'
 const Orders = () => {
   return (
     <View>
-      <Stack.Screen options={{title: 'Orders'}} />
+      <Stack.Screen options={{title: 'Active'}} />
       <FlatList 
         data={orders} 
         renderItem={({item}) => <OrderListItem order={item} />} 

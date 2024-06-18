@@ -2,7 +2,9 @@ import { Stack } from "expo-router"
 
 const OrdersLayout = () => {
   return (
-    <Stack />
+    <Stack>
+      <Stack.Screen name="list" options={{headerShown: false}} />
+    </Stack>
   )
 }
 
