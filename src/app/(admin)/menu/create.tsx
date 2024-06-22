@@ -17,7 +17,7 @@ const CreateProductScreen = () => {
   const isUpdating = !!id;
   const router = useRouter()
   const { mutate: insertProduct } = useInsertProduct()
-  const { mutate: updateProduct } = useUpdateProduct()
+  const { mutate: updateProduct } = useUpdateProduct(id)
   const { mutate: deleteProduct } = useDeleteProduct()
 
   const { data: product } = useProduct(id)
@@ -103,6 +103,9 @@ const CreateProductScreen = () => {
         onSuccess: () => {
           router.back()
           resetFields()
+        },
+        onError: (error) => {
+          console.log(error)
         }
       }
     )

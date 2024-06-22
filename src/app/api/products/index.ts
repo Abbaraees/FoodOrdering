@@ -55,7 +55,7 @@ export const useInsertProduct = () => {
   })
 }
 
-export const useUpdateProduct = () => {
+export const useUpdateProduct = (id: number) => {
   const queryClient = useQueryClient()
   
   return useMutation({
