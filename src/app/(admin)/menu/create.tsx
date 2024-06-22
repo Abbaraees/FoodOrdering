@@ -1,29 +1,32 @@
 import { View, Text, StyleSheet, TextInput, Image, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@/src/components/Button'
 import { defaultPizzaImage } from '@/src/components/ProductListItem'
 import Colors from '@/src/constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { useDeleteProduct, useInsertProduct, useProduct, useUpdateProduct } from '../../api/products'
 
 const CreateProductScreen = () => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [errors, setErrors] = useState('')
   const [image, setImage] = useState<string | null>(null)
-  const { id } = useLocalSearchParams()
+  const { id: idString } = useLocalSearchParams()
+  const id = parseFloat(typeof idString === 'string' ? idString : idString?.[0])
   const isUpdating = !!id;
+  const router = useRouter()
+  const { mutate: insertProduct } = useInsertProduct()
+  const { mutate: updateProduct } = useUpdateProduct()
+  const { mutate: deleteProduct } = useDeleteProduct()
 
-  const onCreate = () => {
-    if (!validateInputs()) {
-      return
-    }
+  const { data: product } = useProduct(id)
 
-    console.warn("Creating Product: ", name)
-
-    resetFields()
-    setImage(null)
-  }
+  useEffect(() => {
+    setName(product?.name)
+    setPrice(product?.price.toString())
+    setImage(product?.image)
+  }, [])
 
   const validateInputs = () => {
     setErrors('')
@@ -57,12 +60,11 @@ const CreateProductScreen = () => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
+
 
   const onSubmit = () => {
     if (isUpdating) {
@@ -72,11 +74,38 @@ const CreateProductScreen = () => {
     }
   }
 
+  const onCreate = () => {
+    if (!validateInputs()) {
+      return
+    }
+
+    insertProduct({
+      name,
+      image,
+      price: parseFloat(price)},
+      {
+        onSuccess: () => 
+        {
+          resetFields()
+          router.back()
+        }
+      }
+    )
+  }
+
   const onUpdate = () => {
     if (!validateInputs()) {
       return
     }
-    console.warn("Update: ", name)
+    updateProduct(
+      {id, name, price: parseFloat(price), image},
+      {
+        onSuccess: () => {
+          router.back()
+          resetFields()
+        }
+      }
+    )
 
     resetFields()
   }
@@ -89,7 +118,12 @@ const CreateProductScreen = () => {
   }
 
   const onDelete = () => {
-    console.warn("DELETE!!!")
+    deleteProduct(id, {
+      onSuccess: () => {
+        resetFields()
+        router.replace('/(admin)')
+      }
+    })
   }
 
   return (

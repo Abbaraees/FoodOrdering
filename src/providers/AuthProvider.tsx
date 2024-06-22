@@ -28,13 +28,13 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       if (session) {
         setSession(session)
         const { data } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single()
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single()
         setProfile(data || null)
       }
-
+      
       setLoading(false)
     }
     supabase.auth.onAuthStateChange((_event, session) => {
