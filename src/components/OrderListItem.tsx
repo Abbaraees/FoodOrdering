@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
-import { Order } from '../types'
+import { Tables } from '../types'
 import dayjs from 'dayjs';
 import { Link, useSegments } from 'expo-router';
 
 type OrderListItemProp = {
-    order: Order
+    order: Tables<'orders'>
 }
 
 const OrderListItem = ({ order }: OrderListItemProp) => {
@@ -15,7 +15,7 @@ const OrderListItem = ({ order }: OrderListItemProp) => {
       <Pressable style={styles.container}>
         <View style={styles.orderDetail}>
           <Text style={styles.orderId}>Order #{order.id}</Text>
-          <Text style={styles.orderTime}>{dayjs(order.created_at).format('H')} hours ago</Text>
+          <Text style={styles.orderTime}>{dayjs(order.created_at).format('ddd DD MMMM, YYYY - HH:mma')}</Text>
         </View>
         <Text style={styles.orderStatus}>{order.status}</Text>
       </Pressable>

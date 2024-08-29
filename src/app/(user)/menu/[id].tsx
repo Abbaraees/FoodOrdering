@@ -6,7 +6,7 @@ import { defaultPizzaImage } from '@/src/components/ProductListItem'
 import Button from '@/src/components/Button'
 import { useCart } from '@/src/providers/CardProvider'
 import { PizzaSize } from '@/src/types'
-import { useProduct } from '../../api/products'
+import { useProduct } from '@/src/api/products'
 
 const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 
